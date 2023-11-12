@@ -6,92 +6,97 @@
       <p class="main-date">ПТ, 13:24</p>
     </header>
 
-    <ul class="event-list">
-      <li class="event-list__item event-item event-list__item--active">
-        <div class="event-list__item-inner">
-          <div class="progress-bar">
-            <span class="progress-bar__line"></span>
-          </div>
-          <header class="event-item__header">
-            <p class="event-item__time">13:00-13:40</p>
-            <span class="event-item__countdown">осталось 16 мин</span>
-          </header>
-          <ul class="event-item__authors-list">
-            <li class="event-item__author">
-              <div class="event-item__author-avatar">
-                <img src="" alt="Анна Кипиани.">
-              </div>
-              <div class="event-item__author-description">
-                <p class="event-item__author-name">Анна Кипиани</p>
-                <p class="event-item__author-job">Systems Education</p>
-              </div>
-            </li>
-            <li class="event-item__author">
-              <div class="event-item__author-avatar">
-                <img src="" alt="Иван Петровский-Разумовский.">
-              </div>
-              <div class="event-item__author-description">
-                <p class="event-item__author-name">Иван Петровский-Разумовский</p>
-                <p class="event-item__author-job">X5 Group</p>
-              </div>
-            </li>
-          </ul>
-          <h2 class="event-item__title">
-            Достучаться до небес: как&nbsp;выстроить эффективное взаимодействие с «непростым» заказчиком
-          </h2>
-          <footer class="event-item__footer">
-            <ul class="event-item__badge-list">
-              <li class="event-item__badge event-item__badge--accent">
-                секц. доклад
-              </li>
-              <li class="event-item__badge">
-                рус
-              </li>
-              <li class="event-item__badge event-item__badge--fz-small">
-                Hr, развитие карьеры и профессиональный рост
-              </li>
-            </ul>
-          </footer>
-        </div>
-      </li>
-      <li class="event-list__item event-item event-list__item--simple">
-        <div class="event-list__item-inner">
-          <header class="event-item__header">
-            <p class="event-item__time">13:40-14:25</p>
-            <h2 class="event-item__title">
-              Обеденный перерыв
-            </h2>
-          </header>
-        </div>
-      </li>
-      <li class="event-list__item event-item">
-        <div class="event-list__item-inner">
-          <header class="event-item__header">
-            <p class="event-item__time">14:25-15:05</p>
-          </header>
-          <ul class="event-item__authors-list">
-            <li class="event-item__author">1</li>
-            <li class="event-item__author">1</li>
-          </ul>
-          <h2 class="event-item__title">
-            Работа Аналитика при реализации zero code, low code, no code и DSL в примерах
-          </h2>
-          <footer class="event-item__footer">
-            <ul class="event-item__badge-list">
-              <li class="event-item__badge event-item__badge--accent">
-                секц. доклад
-              </li>
-              <li class="event-item__badge">
-                рус
-              </li>
-              <li class="event-item__badge event-item__badge--fz-small">
-                Hr, развитие карьеры и профессиональный рост
-              </li>
-            </ul>
-          </footer>
-        </div>
-      </li>
+    <ul class="event-list" v-if="eventList.length > 0">
+
+      <event-item v-for="data in eventList" :event-data="data"></event-item>
+
+
+<!--      <li class="event-list__item event-item event-list__item&#45;&#45;active">-->
+<!--        <div class="event-list__item-inner">-->
+<!--          <div class="progress-bar">-->
+<!--            <span class="progress-bar__line"></span>-->
+<!--          </div>-->
+<!--          <header class="event-item__header">-->
+<!--            <p class="event-item__time">13:00-13:40</p>-->
+<!--            <span class="event-item__countdown">осталось 16 мин</span>-->
+<!--          </header>-->
+<!--          <ul class="event-item__authors-list">-->
+<!--            <li class="event-item__author">-->
+<!--              <div class="event-item__author-avatar">-->
+<!--                <img src="" alt="Анна Кипиани.">-->
+<!--              </div>-->
+<!--              <div class="event-item__author-description">-->
+<!--                <p class="event-item__author-name">Анна Кипиани</p>-->
+<!--                <p class="event-item__author-job">Systems Education</p>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--            <li class="event-item__author">-->
+<!--              <div class="event-item__author-avatar">-->
+<!--                <img src="" alt="Иван Петровский-Разумовский.">-->
+<!--              </div>-->
+<!--              <div class="event-item__author-description">-->
+<!--                <p class="event-item__author-name">Иван Петровский-Разумовский</p>-->
+<!--                <p class="event-item__author-job">X5 Group</p>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--          <h2 class="event-item__title">-->
+<!--            Достучаться до небес: как&nbsp;выстроить эффективное взаимодействие с «непростым» заказчиком-->
+<!--          </h2>-->
+<!--          <footer class="event-item__footer">-->
+<!--            <ul class="event-item__badge-list">-->
+<!--              <li class="event-item__badge event-item__badge&#45;&#45;accent">-->
+<!--                секц. доклад-->
+<!--              </li>-->
+<!--              <li class="event-item__badge">-->
+<!--                рус-->
+<!--              </li>-->
+<!--              <li class="event-item__badge event-item__badge&#45;&#45;fz-small">-->
+<!--                Hr, развитие карьеры и профессиональный рост-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </footer>-->
+<!--        </div>-->
+<!--      </li>-->
+<!--      <li class="event-list__item event-item event-list__item&#45;&#45;simple">-->
+<!--        <div class="event-list__item-inner">-->
+<!--          <header class="event-item__header">-->
+<!--            <p class="event-item__time">13:40-14:25</p>-->
+<!--            <h2 class="event-item__title">-->
+<!--              Обеденный перерыв-->
+<!--            </h2>-->
+<!--          </header>-->
+<!--        </div>-->
+<!--      </li>-->
+<!--      <li class="event-list__item event-item">-->
+<!--        <div class="event-list__item-inner">-->
+<!--          <header class="event-item__header">-->
+<!--            <p class="event-item__time">14:25-15:05</p>-->
+<!--          </header>-->
+<!--          <ul class="event-item__authors-list">-->
+<!--            <li class="event-item__author">1</li>-->
+<!--            <li class="event-item__author">1</li>-->
+<!--          </ul>-->
+<!--          <h2 class="event-item__title">-->
+<!--            Работа Аналитика при реализации zero code, low code, no code и DSL в примерах-->
+<!--          </h2>-->
+<!--          <footer class="event-item__footer">-->
+<!--            <ul class="event-item__badge-list">-->
+<!--              <li class="event-item__badge event-item__badge&#45;&#45;accent">-->
+<!--                секц. доклад-->
+<!--              </li>-->
+<!--              <li class="event-item__badge">-->
+<!--                рус-->
+<!--              </li>-->
+<!--              <li class="event-item__badge event-item__badge&#45;&#45;fz-small">-->
+<!--                Hr, развитие карьеры и профессиональный рост-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--          </footer>-->
+<!--        </div>-->
+<!--      </li>-->
     </ul>
+
 
 
     <footer class="main-footer">
@@ -114,10 +119,33 @@
 </template>
 
 <script>
+import EventItem from "@/components/EventItem.vue";
+import {upload} from "@/api/api";
+import {Endpoint} from "@/api/Endpoint";
+import {getAdaptedData} from "@/api/adapter";
 
 export default {
   name: 'App',
-  components: {}
+  components: {
+    EventItem,
+  },
+  data() {
+    return {
+      eventList: [],
+    }
+  },
+
+
+  methods: {
+    async fetchEvents() {
+      const eventsData = await upload(Endpoint.REPORT_1)
+      this.eventList = eventsData.slice(1).map(item => getAdaptedData(item))
+    }
+  },
+  mounted() {
+  this.fetchEvents()
+
+  },
 }
 </script>
 
@@ -248,97 +276,97 @@ body {
   }
 
 
-  &__item {
-    color: var(--main-gray);
-    position: relative;
+  //&__item {
+  //  color: var(--main-gray);
+  //  position: relative;
+  //
+  //  &::before {
+  //    content: '';
+  //    position: absolute;
+  //    height: min(4rem, 2px);
+  //    width: 62rem;
+  //    background-color: var(--border-gray);
+  //    top: 62rem;
+  //    right: 100%;
+  //  }
+  //
+  //  &::after {
+  //    content: '';
+  //    position: absolute;
+  //    width: 20rem;
+  //    height: 20rem;
+  //    border-radius: 50%;
+  //    background-color: var(--main-white);
+  //    border: 6rem solid var(--border-gray);
+  //    top: 54rem;
+  //    right: calc(100% + 50rem);
+  //  }
+  //
+  //  &--simple {
+  //    .event-list__item-inner {
+  //      padding: 14rem 30rem;
+  //      background-color: transparent;
+  //      border: min(4rem, 2px) solid var(--border-gray);
+  //    }
+  //
+  //    header.event-item__header {
+  //      margin: 0;
+  //      align-items: center;
+  //    }
+  //
+  //    h2.event-item__title {
+  //      font-size: 46rem;
+  //      font-weight: 400;
+  //      margin: 0;
+  //      line-height: 60rem;
+  //    }
+  //
+  //    &::before {
+  //      top: 50%;
+  //      transform: translateY(-50%);
+  //    }
+  //
+  //    &::after {
+  //      top: 50%;
+  //      transform: translateY(-50%);
+  //      right: calc(100% + 52rem);
+  //    }
+  //  }
+  //
+  //  &--active {
+  //    color: var(--main-white);
+  //
+  //    .event-list__item-inner {
+  //      background: linear-gradient(180deg, transparent 20rem, var(--main-blue) 20rem);
+  //    }
+  //
+  //    li.event-item__badge {
+  //      border: 1rem solid var(--border-green);
+  //
+  //      &--accent {
+  //        background-color: var(--badge-green);
+  //        color: var(--main-blue);
+  //      }
+  //    }
+  //
+  //    &::before {
+  //      background-color: var(--border-green);
+  //    }
+  //
+  //    &::after {
+  //      border-color: var(--border-green);
+  //    }
+  //  }
+  //}
 
-    &::before {
-      content: '';
-      position: absolute;
-      height: min(4rem, 2px);
-      width: 62rem;
-      background-color: var(--border-gray);
-      top: 62rem;
-      right: 100%;
-    }
 
-    &::after {
-      content: '';
-      position: absolute;
-      width: 20rem;
-      height: 20rem;
-      border-radius: 50%;
-      background-color: var(--main-white);
-      border: 6rem solid var(--border-gray);
-      top: 54rem;
-      right: calc(100% + 50rem);
-    }
-
-    &--simple {
-      .event-list__item-inner {
-        padding: 14rem 30rem;
-        background-color: transparent;
-        border: min(4rem, 2px) solid var(--border-gray);
-      }
-
-      header.event-item__header {
-        margin: 0;
-        align-items: center;
-      }
-
-      h2.event-item__title {
-        font-size: 46rem;
-        font-weight: 400;
-        margin: 0;
-        line-height: 60rem;
-      }
-
-      &::before {
-        top: 50%;
-        transform: translateY(-50%);
-      }
-
-      &::after {
-        top: 50%;
-        transform: translateY(-50%);
-        right: calc(100% + 52rem);
-      }
-    }
-
-    &--active {
-      color: var(--main-white);
-
-      .event-list__item-inner {
-        background: linear-gradient(180deg, transparent 20rem, var(--main-blue) 20rem);
-      }
-
-      li.event-item__badge {
-        border: 1rem solid var(--border-green);
-
-        &--accent {
-          background-color: var(--badge-green);
-          color: var(--main-blue);
-        }
-      }
-
-      &::before {
-        background-color: var(--border-green);
-      }
-
-      &::after {
-        border-color: var(--border-green);
-      }
-    }
-  }
-
-
-  &__item-inner {
-    border-radius: var(--border-radius);
-    background-color: var(--bg-gray);
-    padding: 36rem 30rem 30rem;
-    position: relative;
-    overflow: hidden;
-  }
+  //&__item-inner {
+  //  border-radius: var(--border-radius);
+  //  background-color: var(--bg-gray);
+  //  padding: 36rem 30rem 30rem;
+  //  position: relative;
+  //  overflow: hidden;
+  //}
 
   .progress-bar {
     position: absolute;
@@ -360,97 +388,97 @@ body {
   }
 
 
-  .event-item {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      gap: 10rem;
-      margin-bottom: 30rem;
-    }
-
-    &__time {
-      font-size: 60rem;
-      font-weight: 700;
-      margin: 0;
-    }
-
-    &__countdown {
-      font-size: 24rem;
-      margin: 0;
-    }
-
-    &__authors-list {
-      padding: 0;
-      list-style: none;
-      display: flex;
-      gap: 20rem;
-      margin: 0 0 30rem 0;
-    }
-
-    &__author {
-      display: flex;
-      gap: 10rem;
-      align-items: center;
-      max-width: 420rem;
-    }
-
-    &__author-avatar {
-      border-radius: 50%;
-
-      img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-      }
-    }
-
-    &__author-name {
-      font-size: 28rem;
-      font-weight: 500;
-      margin: 0 0 8rem 0;
-    }
-
-    &__author-job {
-      font-size: 20rem;
-      margin: 0;
-    }
-
-    &__title {
-      font-size: 48rem;
-      margin: 0 0 30rem 0;
-    }
-
-    &__badge-list {
-      display: flex;
-      justify-content: space-between;
-      gap: 10rem;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-
-    &__badge {
-      font-size: 20rem;
-      text-transform: uppercase;
-      border-radius: 8rem;
-      border: 1rem solid var(--border-gray);
-      padding: 0 20rem;
-      min-height: 48rem;
-      display: flex;
-      align-items: center;
-
-      &--fz-small {
-        font-size: 17rem;
-      }
-
-      &--accent {
-        background-color: var(--badge-gray);
-        color: var(--bg-gray);
-      }
-    }
-  }
+  //.event-item {
+  //  &__header {
+  //    display: flex;
+  //    justify-content: space-between;
+  //    gap: 10rem;
+  //    margin-bottom: 30rem;
+  //  }
+  //
+  //  &__time {
+  //    font-size: 60rem;
+  //    font-weight: 700;
+  //    margin: 0;
+  //  }
+  //
+  //  &__countdown {
+  //    font-size: 24rem;
+  //    margin: 0;
+  //  }
+  //
+  //  &__authors-list {
+  //    padding: 0;
+  //    list-style: none;
+  //    display: flex;
+  //    gap: 20rem;
+  //    margin: 0 0 30rem 0;
+  //  }
+  //
+  //  &__author {
+  //    display: flex;
+  //    gap: 10rem;
+  //    align-items: center;
+  //    max-width: 420rem;
+  //  }
+  //
+  //  &__author-avatar {
+  //    border-radius: 50%;
+  //
+  //    img {
+  //      display: block;
+  //      width: 100%;
+  //      height: 100%;
+  //      object-fit: cover;
+  //      object-position: center;
+  //    }
+  //  }
+  //
+  //  &__author-name {
+  //    font-size: 28rem;
+  //    font-weight: 500;
+  //    margin: 0 0 8rem 0;
+  //  }
+  //
+  //  &__author-job {
+  //    font-size: 20rem;
+  //    margin: 0;
+  //  }
+  //
+  //  &__title {
+  //    font-size: 48rem;
+  //    margin: 0 0 30rem 0;
+  //  }
+  //
+  //  &__badge-list {
+  //    display: flex;
+  //    justify-content: space-between;
+  //    gap: 10rem;
+  //    padding: 0;
+  //    margin: 0;
+  //    list-style: none;
+  //  }
+  //
+  //  &__badge {
+  //    font-size: 20rem;
+  //    text-transform: uppercase;
+  //    border-radius: 8rem;
+  //    border: 1rem solid var(--border-gray);
+  //    padding: 0 20rem;
+  //    min-height: 48rem;
+  //    display: flex;
+  //    align-items: center;
+  //
+  //    &--fz-small {
+  //      font-size: 17rem;
+  //    }
+  //
+  //    &--accent {
+  //      background-color: var(--badge-gray);
+  //      color: var(--bg-gray);
+  //    }
+  //  }
+  //}
 }
 
 .main-footer {
