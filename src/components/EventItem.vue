@@ -1,22 +1,12 @@
 <template>
-  <li :class="`event-item ${isActive && 'event-item--active'}`" v-if="eventData.type === 'regular'">
+  <li :class="`event-item ${isActive ? 'event-item--active' : ''}`" v-if="eventData.type === 'regular'">
     <div class="event-item__inner">
       <progress-bar v-if="isActive" :full-present='howTimeProgress()'/>
       <header class="event-item__header">
         <p class="event-item__time">{{ getTimeInterval() }}</p>
-        <span class="event-item__countdown" v-if="isActive">осталось {{ howTimeLeft() }} мин</span>
+        <span class="event-item__countdown" v-if="isActive">осталось {{ timeLeft }} мин</span>
       </header>
-      <ul class="event-item__authors-list">
-        <li class="event-item__author" v-for="(speaker, index) in eventData.speakers">
-          <div class="event-item__author-avatar">
-            <img :src="eventData.speakerPhotos[index]" :alt="speaker.split('/')[0]">
-          </div>
-          <div class="event-item__author-description">
-            <p class="event-item__author-name">{{ speaker.split('/')[0] }}</p>
-            <p class="event-item__author-job">{{ speaker.split('/')[1] }}</p>
-          </div>
-        </li>
-      </ul>
+      <speakers-slider :speaker-names="eventData.speakers" :speaker-photos="eventData.speakerPhotos"/>
       <h2 class="event-item__title">{{ eventData.title }}</h2>
       <footer class="event-item__footer">
         <ul class="event-item__badge-list">
@@ -27,7 +17,7 @@
       </footer>
     </div>
   </li>
-  <li :class="`event-item event-item--simple ${isActive && 'event-item--active'}`"
+  <li :class="`event-item event-item--simple ${isActive ? 'event-item--active' : ''}`"
       v-else-if="eventData.type === 'simple'">
     <div class="event-item__inner">
       <progress-bar v-if="isActive" :full-present="this.howTimeProgress()"/>
@@ -42,14 +32,25 @@
 <script>
 import ProgressBar from "@/components/ProgressBar.vue";
 import {toHours, toMinutes} from "@/tools/tools";
+import SpeakersSlider from "@/components/SpeakersSlider.vue";
 
 export default {
   name: 'EventItem',
+  components: {SpeakersSlider, ProgressBar},
   props: {
     eventData: {
       type: Object,
       required: true
     },
+  },
+  computed: {
+    timeLeft() {
+      // const [h, m] = new Date().toLocaleTimeString().split(':')
+      const h = 11
+      const m = 30
+
+      return (h * 60 + +m - this.endMinutes) * -1
+    }
   },
   data() {
     return {
@@ -59,30 +60,20 @@ export default {
     }
   },
   mounted() {
-    this.isActive = this.howTimeLeft() <= this.eventData.duration
-
+    this.isActive = this.timeLeft <= this.eventData.duration
   },
-  components: {ProgressBar},
   methods: {
     getTimeInterval() {
       return `${this.eventData.time} - ${toHours(this.endMinutes)}`
     },
-    howTimeLeft() {
-      // const [h, m, s] = new Date().toLocaleTimeString().split(':')
-      const h = 11
-      const m = 0
-
-      return (h * 60 + +m - this.endMinutes) * -1
-    },
     howTimeProgress() {
-      return (1 - this.howTimeLeft() / this.eventData.duration) * 100
-    }
+      return (1 - this.timeLeft / this.eventData.duration) * 100
+    },
   }
 }
 </script>
 
 <style lang="scss">
-
 .event-item {
   color: var(--main-gray);
   position: relative;
