@@ -81,7 +81,7 @@ export default {
 }
 
 :root {
-  --resize-c: min(calc(1vw / 10.8), 0.4px);
+  --gap: 180rem;
 
   --main-black: #000000;
   --main-gray: #5e5e5e;

@@ -1,23 +1,12 @@
 <template>
   <section class="wrapper">
-
     <header class="main-header">
       <h1 class="main-title">Cекция {{ sectionName }}</h1>
       <p class="main-date">{{ currentDate }}</p>
     </header>
-    <swiper
-        class="event-list"
-        v-if="eventList.length > 0"
-        :direction="'vertical'"
-        @swiper="onSwiper"
-        :allow-touch-move="false"
-    >
-      <swiper-slide v-for="data in eventList">
-        <event-item :event-data="data"></event-item>
-      </swiper-slide>
-    </swiper>
-
-
+    <ul class="event-list" v-if="eventList.length > 0" :style="{transform: `translateY(calc(${-listOffset}px + var(--gap)))`}">
+        <event-item v-for="data in eventList" :event-data="data" @active="onActiveEventItem"></event-item>
+    </ul>
     <footer class="main-footer">
       <ul class="main-footer__list">
         <li class="main-footer__item">
@@ -52,14 +41,12 @@ export default {
   },
   components: {
     EventItem,
-    Swiper,
-    SwiperSlide
   },
   data() {
     return {
       currentDate: this.getCurrentDate(),
       dateIntervalId: null,
-      swiper: null,
+      listOffset: 0
     }
   },
   methods: {
@@ -69,24 +56,9 @@ export default {
       const [h, m] = date.toLocaleTimeString().split(':')
       return `${days[date.getDay()]}, ${h}:${m}`
     },
-    onSwiper(swiper) {
-      if (swiper) {
-        // const [h, m] = new Date().toLocaleTimeString()
 
-        const h = 12
-        const m = 30
-
-        const index = this.eventList.findIndex(eventItem => {
-          const start = eventItem.time
-          const duration = eventItem.duration
-          return toMinutes(start) <= +h * 60 + +m && +h * 60 + +m <= toMinutes(start) + duration
-        })
-
-
-        swiper.setTranslate(-swiper.slides[index].offsetTop + 65)
-        this.swiper = swiper
-      }
-
+    onActiveEventItem(event) {
+      this.listOffset = event.$el.offsetTop
     }
   },
   computed: {
@@ -98,7 +70,6 @@ export default {
   },
   mounted() {
     this.dateIntervalId = setInterval(() => this.currentDate = this.getCurrentDate(), 1000 * 30)
-    this.onSwiper()
   },
   unmounted() {
     clearInterval(this.dateIntervalId)
@@ -152,6 +123,8 @@ export default {
   list-style: none;
   font-size: 50rem;
   margin: 0;
+  gap: 60rem;
+
 
   &::before, &::after {
     content: '';
@@ -170,14 +143,6 @@ export default {
     top: 0;
     height: 200rem;
     background-color: var(--border-green);
-  }
-
-  & > .swiper-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 60rem;
-    max-height: 100vh;
-    height: 100%;
   }
 }
 

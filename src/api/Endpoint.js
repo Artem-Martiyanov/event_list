@@ -4,4 +4,6 @@ export const Endpoint = {
   'reports_3.json': 'В',
   'reports_4.json': 'Г',
   'reports_5.json': 'Д',
+
+  'reports_6.json': 'Е',
 }

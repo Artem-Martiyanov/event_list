@@ -59,8 +59,25 @@ export default {
       isActive: false,
     }
   },
+  watch: {
+    isActive() {
+      setTimeout(() => {
+        this.$emit('active', this)
+      })
+    }
+  },
+
   mounted() {
-    this.isActive = this.timeLeft <= this.eventData.duration
+    // const [h, m] = new Date().toLocaleTimeString().split(':')
+    const h = 9
+    const m = 30
+    this.isActive = this.startMinutes <= h * 60 + +m && h * 60 + +m < this.endMinutes
+
+    if (this.isActive) {
+      setTimeout(() => {
+        this.$emit('active', this)
+      })
+    }
   },
   methods: {
     getTimeInterval() {
