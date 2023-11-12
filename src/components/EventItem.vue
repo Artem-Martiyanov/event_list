@@ -1,12 +1,10 @@
 <template>
   <li :class="`event-item ${isActive && 'event-item--active'}`" v-if="eventData.type === 'regular'">
     <div class="event-item__inner">
-      <div class="progress-bar" v-if="isActive">
-        <span class="progress-bar__line"></span>
-      </div>
+      <progress-bar v-if="isActive" :full-present='howTimeProgress()'/>
       <header class="event-item__header">
-        <p class="event-item__time">{{ getTimeInterval()}}</p>
-        <span class="event-item__countdown">осталось 16 мин</span>
+        <p class="event-item__time">{{ getTimeInterval() }}</p>
+        <span class="event-item__countdown" v-if="isActive">осталось {{ howTimeLeft() }} мин</span>
       </header>
       <ul class="event-item__authors-list">
         <li class="event-item__author" v-for="(speaker, index) in eventData.speakers">
@@ -19,39 +17,30 @@
           </div>
         </li>
       </ul>
-      <h2 class="event-item__title">
-        {{eventData.title}}
-      </h2>
+      <h2 class="event-item__title">{{ eventData.title }}</h2>
       <footer class="event-item__footer">
         <ul class="event-item__badge-list">
-          <li class="event-item__badge event-item__badge--accent">
-            {{eventData.badgeType}}
-          </li>
-          <li class="event-item__badge">
-            {{ eventData.badgeLang }}
-          </li>
-          <li class="event-item__badge event-item__badge--fz-small">
-            {{ eventData.badgeTheme }}
-          </li>
+          <li class="event-item__badge event-item__badge--accent">{{ eventData.badgeType }}</li>
+          <li class="event-item__badge">{{ eventData.badgeLang }}</li>
+          <li class="event-item__badge event-item__badge--fz-small">{{ eventData.badgeTheme }}</li>
         </ul>
       </footer>
     </div>
   </li>
-
-  <li class="event-item event-item--simple" v-else-if="eventData.type === 'simple'">
+  <li :class="`event-item event-item--simple ${isActive && 'event-item--active'}`"
+      v-else-if="eventData.type === 'simple'">
     <div class="event-item__inner">
+      <progress-bar v-if="isActive" :full-present="this.howTimeProgress()"/>
       <header class="event-item__header">
-        <p class="event-item__time">{{ getTimeInterval()}}</p>
-        <h2 class="event-item__title">
-          {{eventData.title}}
-        </h2>
+        <p class="event-item__time">{{ getTimeInterval() }}</p>
+        <h2 class="event-item__title">{{ eventData.title }}</h2>
       </header>
     </div>
   </li>
 </template>
 
 <script>
-
+import ProgressBar from "@/components/ProgressBar.vue";
 import {toHours, toMinutes} from "@/tools/tools";
 
 export default {
@@ -61,18 +50,32 @@ export default {
       type: Object,
       required: true
     },
-    isActive: Boolean,
   },
   data() {
     return {
+      startMinutes: +toMinutes(this.eventData.time),
+      endMinutes: +toMinutes(this.eventData.time) + this.eventData.duration,
+      isActive: false,
     }
   },
-  components: {},
+  mounted() {
+    this.isActive = this.howTimeLeft() <= this.eventData.duration
+
+  },
+  components: {ProgressBar},
   methods: {
     getTimeInterval() {
-      if (this.eventData.time && this.eventData.duration) {
-        return `${this.eventData.time} - ${toHours(toMinutes(this.eventData.time), this.eventData.duration)}`
-      }
+      return `${this.eventData.time} - ${toHours(this.endMinutes)}`
+    },
+    howTimeLeft() {
+      // const [h, m, s] = new Date().toLocaleTimeString().split(':')
+      const h = 11
+      const m = 0
+
+      return (h * 60 + +m - this.endMinutes) * -1
+    },
+    howTimeProgress() {
+      return (1 - this.howTimeLeft() / this.eventData.duration) * 100
     }
   }
 }
@@ -125,6 +128,7 @@ export default {
     font-size: 60rem;
     font-weight: 700;
     margin: 0;
+    white-space: nowrap;
   }
 
   &__countdown {
@@ -207,6 +211,13 @@ export default {
   }
 
   &--simple {
+    &.event-item--active {
+      .event-item__inner {
+        padding-top: 35rem;
+        border-top: none;
+      }
+    }
+
     .event-item__inner {
       padding: 14rem 30rem;
       background-color: transparent;
