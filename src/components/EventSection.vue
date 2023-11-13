@@ -4,8 +4,10 @@
       <h1 class="main-title">Cекция {{ sectionName }}</h1>
       <p class="main-date">{{ currentDate }}</p>
     </header>
-    <ul class="event-list" v-if="eventList.length > 0" :style="{transform: `translateY(calc(${-listOffset}px + var(--gap)))`}">
-        <event-item v-for="data in eventList" :event-data="data" @active="onActiveEventItem"></event-item>
+    <ul class="event-list" v-if="eventList.length > 0"
+        :style="{transform: `translateY(calc(${-listOffset}px + var(--gap)))`}">
+      <event-item v-for="data in eventList" :event-data="data" @active="onActiveEventItem"
+                  :currentTime="this.currentTime"></event-item>
     </ul>
     <footer class="main-footer">
       <ul class="main-footer__list">
@@ -37,6 +39,10 @@ export default {
     eventList: {
       type: Array,
       required: true
+    },
+    currentTime: {
+      type: Object,
+      required: true
     }
   },
   components: {
@@ -59,7 +65,7 @@ export default {
 
     onActiveEventItem(event) {
       this.listOffset = event.$el.offsetTop
-    }
+    },
   },
   computed: {
     sectionName() {
@@ -81,9 +87,19 @@ export default {
 .wrapper {
   overflow: hidden;
   margin: 0 auto;
-  max-height: 100vh;
+  max-height: 100dvh;
   max-width: 1080rem;
   position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 4rem;
+    left: 38rem;
+    top: 0;
+    height: 240rem;
+    background-color: var(--border-green);
+  }
 }
 
 .main-header {
@@ -114,7 +130,6 @@ export default {
   margin: 0;
 }
 
-
 .event-list {
   position: relative;
   display: flex;
@@ -125,24 +140,14 @@ export default {
   margin: 0;
   gap: 60rem;
 
-
-  &::before, &::after {
+  &::before {
     content: '';
     position: absolute;
     width: 4rem;
     left: 38rem;
-  }
-
-  &::before {
     background-color: var(--border-gray);
     top: 62rem;
     bottom: 0;
-  }
-
-  &::after {
-    top: 0;
-    height: 200rem;
-    background-color: var(--border-green);
   }
 }
 
@@ -162,6 +167,7 @@ export default {
     display: flex;
     justify-content: space-between;
     gap: 40rem;
+    transition: transform 0.2s ease;
   }
 
   &__item {

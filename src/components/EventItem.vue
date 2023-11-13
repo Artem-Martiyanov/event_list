@@ -40,52 +40,56 @@ export default {
   props: {
     eventData: {
       type: Object,
-      required: true
+      required: true,
     },
+    currentTime: {
+      type: Object,
+      required: true
+    }
   },
   computed: {
     timeLeft() {
-      // const [h, m] = new Date().toLocaleTimeString().split(':')
-      const h = 11
-      const m = 30
-
-      return (h * 60 + +m - this.endMinutes) * -1
+      return (this.currentTime.h * 60 + +this.currentTime.m - this.endMinutes) * -1
+    },
+    isActive() {
+      return this.startMinutes <= this.currentTime.h * 60 + +this.currentTime.m && this.currentTime.h * 60 + +this.currentTime.m < this.endMinutes
     }
   },
   data() {
     return {
       startMinutes: +toMinutes(this.eventData.time),
       endMinutes: +toMinutes(this.eventData.time) + this.eventData.duration,
-      isActive: false,
     }
   },
   watch: {
     isActive() {
-      setTimeout(() => {
-        this.$emit('active', this)
-      })
+      this.$emit('active', this)
     }
   },
 
   mounted() {
-    // const [h, m] = new Date().toLocaleTimeString().split(':')
-    const h = 9
-    const m = 30
-    this.isActive = this.startMinutes <= h * 60 + +m && h * 60 + +m < this.endMinutes
-
     if (this.isActive) {
-      setTimeout(() => {
-        this.$emit('active', this)
-      })
+      this.$emit('active', this)
     }
+    window.addEventListener('resize', this.onResize)
   },
   methods: {
     getTimeInterval() {
       return `${this.eventData.time} - ${toHours(this.endMinutes)}`
     },
+
     howTimeProgress() {
       return (1 - this.timeLeft / this.eventData.duration) * 100
     },
+
+    onResize() {
+      if (this.isActive) {
+        this.$emit('active', this)
+      }
+    }
+  },
+  unmounted() {
+    document.removeEventListener('resize', this.onResize)
   }
 }
 </script>
@@ -103,6 +107,7 @@ export default {
     background-color: var(--border-gray);
     top: 62rem;
     right: 100%;
+    z-index: 1;
   }
 
   &::after {
@@ -114,6 +119,7 @@ export default {
     background-color: var(--main-white);
     border: 6rem solid var(--border-gray);
     top: 54rem;
+    z-index: 1;
     right: calc(100% + 50rem);
   }
 
@@ -222,7 +228,7 @@ export default {
     &.event-item--active {
       .event-item__inner {
         padding-top: 35rem;
-        border-top: none;
+        border: none;
       }
     }
 

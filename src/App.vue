@@ -1,5 +1,5 @@
 <template>
-  <event-section :event-list="eventList"/>
+  <event-section :event-list="eventList" :current-time="this.currentTime"/>
 </template>
 
 <script>
@@ -19,17 +19,19 @@ export default {
     return {
       eventList: [],
       fetchIntervalId: null,
+      reloadIntervalId: null,
+      currentTime: this.getCurrentTime()
     }
   },
   computed: {
     endpoint() {
       return this.$route.params.id
-    }
+    },
   },
   watch: {
     endpoint() {
       this.fetchEvents()
-    }
+    },
   },
   methods: {
     async fetchEvents() {
@@ -40,14 +42,23 @@ export default {
         }
       }
     },
+    getCurrentTime() {
+      const [h, m] = new Date().toLocaleTimeString().split(':')
+      return {h, m}
+    }
   },
   mounted() {
     this.fetchEvents()
     this.fetchIntervalId = setInterval(() => this.fetchEvents(), 1000 * 60 * 5)
+
+   this.reloadIntervalId = setInterval(() => {
+      this.currentTime = this.getCurrentTime()
+    }, 5000)
   },
 
   unmounted() {
     clearInterval(this.fetchIntervalId)
+    clearInterval(this.reloadIntervalId)
   }
 }
 </script>
