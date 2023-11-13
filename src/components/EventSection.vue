@@ -64,13 +64,15 @@ export default {
     },
 
     onActiveEventItem(event) {
-      this.listOffset = event.$el.offsetTop
+      setTimeout(() => { // Без таймаута рендерится по-разному каждый раз
+        this.listOffset = event.$el.offsetTop
+      })
     },
   },
   computed: {
     sectionName() {
-      if (this.$route.params.id) {
-        return Endpoint[this.$route.params.id]
+      if (this.$route.params.sectionId) {
+        return Endpoint[this.$route.params.sectionId]
       }
     }
   },

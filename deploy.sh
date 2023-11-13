@@ -9,6 +9,7 @@ cd dist
 git init
 git add -A
 git commit -m 'Deployment'
-git push -f git@github.com:Artem-Martiyanov/event_list.git main:gh-pages
+git remote add origin git@github.com:Artem-Martiyanov/event_list.git
+git push -f origin master:gh-pages
 
 cd -

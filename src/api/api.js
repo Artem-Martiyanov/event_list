@@ -1,5 +1,5 @@
 
-const BASE_URL = '/backend'
+const BASE_URL = '/event_list/backend/'
 
 export const upload = async (endpoint) => {
   try {

@@ -3,7 +3,7 @@ import EventSection from "@/components/EventSection.vue";
 
 const routes = [
   {
-    path: '/:id',
+    path: '/:sectionId',
     name: 'section',
     component: EventSection
   },

@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     endpoint() {
-      return this.$route.params.id
+      return this.$route.params.sectionId
     },
   },
   watch: {
@@ -36,7 +36,7 @@ export default {
   methods: {
     async fetchEvents() {
       if (this.endpoint) {
-        const eventsData = await upload('/' + this.endpoint)
+        const eventsData = await upload(this.endpoint + '.json')
         if (eventsData) {
           this.eventList = eventsData.slice(1).map(item => getAdaptedData(item))
         }
