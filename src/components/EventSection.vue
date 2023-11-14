@@ -4,8 +4,8 @@
       <h1 class="main-title">Cекция {{ sectionName }}</h1>
       <p class="main-date">{{ currentDate }}</p>
     </header>
-    <ul class="event-list" v-if="eventList.length > 0"
-        :style="{transform: `translateY(calc(${-listOffset}px + var(--gap)))`}">
+    <ul class="event-list" :ref="listRef" v-if="eventList.length > 0"
+        :style="getOffsetStyles()">
       <event-item v-for="data in eventList" :event-data="data" @active="onActiveEventItem"
                   :currentTime="this.currentTime"></event-item>
     </ul>
@@ -52,7 +52,8 @@ export default {
     return {
       currentDate: this.getCurrentDate(),
       dateIntervalId: null,
-      listOffset: 0
+      listOffset: 0,
+      listRef: null
     }
   },
   methods: {
@@ -68,6 +69,9 @@ export default {
         this.listOffset = event.$el.offsetTop
       })
     },
+    getOffsetStyles() {
+      return this.listOffset ? {transform: `translateY(calc(${-this.listOffset}px + var(--gap)))`} : ''
+    }
   },
   computed: {
     sectionName() {
@@ -92,16 +96,6 @@ export default {
   max-height: 100dvh;
   max-width: 1080rem;
   position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    width: 4rem;
-    left: 38rem;
-    top: 0;
-    height: 240rem;
-    background-color: var(--border-green);
-  }
 }
 
 .main-header {
@@ -149,7 +143,7 @@ export default {
     left: 38rem;
     background-color: var(--border-gray);
     top: 62rem;
-    bottom: 0;
+    height: 10000vh;
   }
 }
 

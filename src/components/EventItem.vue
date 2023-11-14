@@ -1,5 +1,6 @@
 <template>
   <li :class="`event-item ${isActive ? 'event-item--active' : ''}`" v-if="eventData.type === 'regular'">
+    <span class="event-item__green-line"></span>
     <div class="event-item__inner">
       <progress-bar v-if="isActive" :full-present='howTimeProgress()'/>
       <header class="event-item__header">
@@ -19,6 +20,7 @@
   </li>
   <li :class="`event-item event-item--simple ${isActive ? 'event-item--active' : ''}`"
       v-else-if="eventData.type === 'simple'">
+    <span class="event-item__green-line"></span>
     <div class="event-item__inner">
       <progress-bar v-if="isActive" :full-present="this.howTimeProgress()"/>
       <header class="event-item__header">
@@ -230,6 +232,10 @@ export default {
         padding-top: 35rem;
         border: none;
       }
+
+      .event-item__green-line {
+        bottom: 50%;
+      }
     }
 
     .event-item__inner {
@@ -266,6 +272,15 @@ export default {
 
   &--active {
     color: var(--main-white);
+
+    .event-item__green-line {
+      position: absolute;
+      width: 4rem;
+      right: calc(100% + 58rem);
+      bottom: calc(100% - 62rem);
+      height: 5000rem;
+      background-color: var(--border-green);
+    }
 
     .event-item__inner {
       background: linear-gradient(180deg, transparent 20rem, var(--main-blue) 20rem);
