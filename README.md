@@ -1,5 +1,10 @@
 # event_list
 
+## Deployment
+```
+https://artem-martiyanov.github.io/event_list/reports_1
+```
+
 ## Project setup
 ```
 npm install
